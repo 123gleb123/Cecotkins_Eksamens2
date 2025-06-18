@@ -103,9 +103,9 @@ class Test:
         self.root.geometry("600x400")
         self.root.configure(bg="#2E2E2E")
 
-        self.q_index = 0
+        self.jaut_index = 0
         self.score = 0
-        self.user_answers = []
+        self.user_atb = []
 
         self.varianti_var = tk.IntVar()
         self.radio_buttons = []
@@ -148,9 +148,9 @@ class Test:
         
     def play_game(self):
         self.clear_window()
-        self.q_index = 0
+        self.jaut_index = 0
         self.score = 0
-        self.user_answers = []
+        self.user_atb = []
 
         self.jaut_label = tk.Label(self.root, text="", font=("Arial", 14), wraplength=400, justify="left", bg="#2E2E2E", fg="white")
         self.jaut_label.pack(pady=20)
@@ -170,28 +170,43 @@ class Test:
         self.paradi_jautajumi()
 
     def paradi_jautajumi(self):
-        q = jautajumi[self.q_index]
-        self.jaut_label.config(text=f"Q{self.q_index + 1}: {q['jautajums']}")
+        q = jautajumi[self.jaut_index]
+        self.jaut_label.config(text=f"Q{self.jaut_index + 1}: {q['jautajums']}")
         self.options_var.set(-1)
         for i, option in enumerate(q["varianti"]):
             self.radio_buttons[i].config(text=option)
 
     def nak_jautajums(self):
-        selected = self.options_var.get()
-        if selected == -1:
+        izveleti = self.options_var.get()
+        if izveleti == -1:
             messagebox.showwarning("Uzmanību", "Lūdzu, izvēlies atbildes variantu.")
             return
 
-        correct = selected == jautajumi[self.q_index]["atbilde"]
-        self.user_answers.append((selected, correct))
-        if correct:
+        pareizi = izveleti == jautajumi[self.jaut_index]["atbilde"]
+        self.user_atb.append((izveleti, pareizi))
+        if pareizi:
             self.score += 1
 
-        self.q_index += 1
-        if self.q_index < len(jautajumi):
+        self.jaut_index += 1
+        if self.jaut_index < len(jautajumi):
             self.paradi_jautajumi()
         else:
             self.paradi_result()
+
+    def paradi_result(self):
+        result_text = f"Tu atbildēji pareizi uz {self.score} no {len(jautajumi)} jautājumiem!\n\n"
+        for idx, (ans, correct) in enumerate(self.user_atb):
+            q = jautajumi[idx]
+            result_text += f"Jautajums{idx + 1}: {q['jautajums']}\n"
+            result_text += f"  Tava atbilde: {q['varianti'][ans]}\n"
+            if correct:
+                result_text += "Pareizi!\n"
+            else:
+                result_text += f" Nepareizi. Pareizā atbilde: {q['varianti'][q['atbilde']]}\n"
+            result_text += "\n"
+
+        messagebox.showinfo("Tests pabeigts", result_text)
+        self.root.quit()
 
     
 
