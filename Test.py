@@ -171,7 +171,7 @@ class Test:
 
     def paradi_jautajumi(self):
         q = jautajumi[self.jaut_index]
-        self.jaut_label.config(text=f"Q{self.jaut_index + 1}: {q['jautajums']}")
+        self.jaut_label.config(text=f"Jautajums{self.jaut_index + 1}: {q['jautajums']}")
         self.options_var.set(-1)
         for i, option in enumerate(q["varianti"]):
             self.radio_buttons[i].config(text=option)
