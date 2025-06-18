@@ -163,7 +163,7 @@ class Test:
             rb.pack(anchor="w", padx=20)
             self.radio_buttons.append(rb)
 
-        self.next_button = tk.Button(self.root, text="Next", command=self.next_question,
+        self.next_button = tk.Button(self.root, text="Next", command=self.nak_jautajums,
                                      font=("Arial", 12, "bold"), bg="#4CAF50", fg="white", padx=10, pady=5)
         self.next_button.pack(pady=10)
 
@@ -175,7 +175,26 @@ class Test:
         self.options_var.set(-1)
         for i, option in enumerate(q["varianti"]):
             self.radio_buttons[i].config(text=option)
-            
+
+    def nak_jautajums(self):
+        selected = self.options_var.get()
+        if selected == -1:
+            messagebox.showwarning("Uzmanību", "Lūdzu, izvēlies atbildes variantu.")
+            return
+
+        correct = selected == jautajumi[self.q_index]["atbilde"]
+        self.user_answers.append((selected, correct))
+        if correct:
+            self.score += 1
+
+        self.q_index += 1
+        if self.q_index < len(jautajumi):
+            self.paradi_jautajumi()
+        else:
+            self.paradi_result()
+
+    
+
 root = tk.Tk()
 app = Test(root)
 root.mainloop()
