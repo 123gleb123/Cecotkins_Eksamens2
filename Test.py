@@ -97,6 +97,25 @@ jautajumi = [
 
 class Test:
 
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Python programmēšanas valodas for cikla tests")
+        self.root.geometry("600x400")
+        self.root.configure(bg="#2E2E2E")
+
+        self.q_index = 0
+        self.score = 0
+        self.user_answers = []
+
+        self.varianti_var = tk.IntVar()
+        self.radio_buttons = []
+
+        self.menu()
+
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
     def menu(self):
         self.clear_window()
         tk.Label(self.root, text="Python programmēšanas valodas for cikla tests", font=("Arial", 20, "bold"),
