@@ -152,8 +152,8 @@ class Test:
         self.score = 0
         self.user_answers = []
 
-        self.question_label = tk.Label(self.root, text="", font=("Arial", 14), wraplength=400, justify="left", bg="#2E2E2E", fg="white")
-        self.question_label.pack(pady=20)
+        self.jaut_label = tk.Label(self.root, text="", font=("Arial", 14), wraplength=400, justify="left", bg="#2E2E2E", fg="white")
+        self.jaut_label.pack(pady=20)
 
         self.options_var = tk.IntVar()
         self.radio_buttons = []
@@ -167,9 +167,15 @@ class Test:
                                      font=("Arial", 12, "bold"), bg="#4CAF50", fg="white", padx=10, pady=5)
         self.next_button.pack(pady=10)
 
-        self.display_question()
+        self.paradi_jautajumi()
 
-
+    def paradi_jautajumi(self):
+        q = jautajumi[self.q_index]
+        self.jaut_label.config(text=f"Q{self.q_index + 1}: {q['jautajums']}")
+        self.options_var.set(-1)
+        for i, option in enumerate(q["varianti"]):
+            self.radio_buttons[i].config(text=option)
+            
 root = tk.Tk()
 app = Test(root)
 root.mainloop()
