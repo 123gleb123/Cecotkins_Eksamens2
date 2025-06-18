@@ -145,6 +145,29 @@ class Test:
 
         tk.Button(self.root, text="Atgriezties uz galveno izvēlni", command=self.menu,
                   font=("Arial", 14, "bold"), bg="#388E3C", fg="white", padx=20, pady=10).pack(pady=10)
+        
+    def play_game(self):
+        self.clear_window()
+        self.q_index = 0
+        self.score = 0
+        self.user_answers = []
+
+        self.question_label = tk.Label(self.root, text="", font=("Arial", 14), wraplength=400, justify="left", bg="#2E2E2E", fg="white")
+        self.question_label.pack(pady=20)
+
+        self.options_var = tk.IntVar()
+        self.radio_buttons = []
+        for i in range(4):
+            rb = tk.Radiobutton(self.root, text="", variable=self.options_var, value=i, font=("Arial", 12),
+                                bg="#2E2E2E", fg="white", selectcolor="#444444")
+            rb.pack(anchor="w", padx=20)
+            self.radio_buttons.append(rb)
+
+        self.next_button = tk.Button(self.root, text="Next", command=self.next_question,
+                                     font=("Arial", 12, "bold"), bg="#4CAF50", fg="white", padx=10, pady=5)
+        self.next_button.pack(pady=10)
+
+        self.display_question()
 
 
 root = tk.Tk()
